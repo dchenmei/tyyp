@@ -34,8 +34,12 @@ class DNSChecker(object):
             raise e
 
     def check(self, url):
-        # TODO: Get actual domain
-        domain = url
+        url = url.split('.')
+        if url[0][0:3] == "www" or url[0][0:3] == "htt":
+            domain = url[1]
+        else:
+            domain = url[0]
+
         country = "TR"
         doh_r = self._doh_request(domain, dns_server=DNS_SERVERS['CLOUDFLARE']['doh'][0])
         assert doh_r['Status'] == 0, "Site does not exist"
